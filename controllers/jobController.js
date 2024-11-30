@@ -109,3 +109,15 @@ exports.searchJobs = async (req, res) => {
     res.status(500).json({ message: 'Error searching jobs', error });
   }
 };
+
+exports.getUserJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({}); // Customize this to only fetch jobs the user is interested in
+    if (!jobs.length) {
+      return res.status(404).json({ message: 'No jobs found' });
+    }
+    return jobs;
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching jobs', error });
+  }
+};
