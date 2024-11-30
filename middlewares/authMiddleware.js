@@ -37,3 +37,12 @@ exports.authorizeAdmin = (req, res, next) => {
   next();
 };
 
+exports.authorizeRoles = (role) => {
+  return (req, res, next) => {
+    if (req.user.role !== role) {
+      return res.status(403).json({ message: 'Access forbidden: Insufficient role' });
+    }
+    next(); // Move to next middleware/controller
+  };
+};
+
