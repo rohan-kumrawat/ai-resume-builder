@@ -75,14 +75,36 @@ exports.searchJobs = async (req, res) => {
       const skillArray = skills.split(','); // Assuming skills are sent as comma-separated values
       query.skills = { $in: skillArray };
     }
+    // Default values for pagination
+    const pageNum = parseInt(page) || 1;
+    const pageSize = parseInt(limit) || 10;
+    const skip = (pageNum - 1) * pageSize;
 
-    const jobs = await Job.find(query);
+    // Sorting: Default to "postedDate" in descending order
+    const sortOptions = {};
+    if (sortBy) sortOptions[sortBy] = order === 'asc' ? 1 : -1;
+    
+    const jobs = await Job.find(query)
+
+    .sort(sortOptions)
+    .skip(skip)
+    .limit(pageSize);
+
+    const totalJobs = await Job.countDocuments(query);
 
     if (!jobs.length) {
       return res.status(404).json({ message: 'No jobs found' });
     }
 
-    res.status(200).json({ message: 'Jobs found', jobs });
+    res.status(200).json({ 
+      message: 'Jobs found', 
+      jobs,
+      pagination: {
+        currentPage: pageNum,
+        totalPages: Math.ceil(totalJobs / pageSize),
+        totalJobs
+      } 
+    });
   } catch (error) {
     res.status(500).json({ message: 'Error searching jobs', error });
   }
