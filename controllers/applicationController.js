@@ -24,7 +24,7 @@ exports.applyToJob = async (req, res) => {
     const application = new Application({
       user: req.user._id,
       job: jobId,
-      resume, // Assuming a link to the resume is provided
+      resume:req.file.path, // Assuming a link to the resume is provided
     });
 
     await application.save();

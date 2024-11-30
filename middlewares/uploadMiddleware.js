@@ -1,32 +1,29 @@
 const multer = require('multer');
 const path = require('path');
 
-// Storage configuration
+// Set storage engine
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, 'uploads/resumes/'); // Resumes will be stored in this folder
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
-// File type validation
+// File filter for PDFs only
 const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = /pdf|doc|docx/;
-  const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-  
-  if (extname) {
+  if (file.mimetype === 'application/pdf') {
     cb(null, true);
   } else {
-    cb('Error: Only PDF, DOC, and DOCX files are allowed');
+    cb(new Error('Only PDF files are allowed'), false);
   }
 };
 
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+  limits: { fileSize: 2 * 1024 * 1024 }, // Limit file size to 2MB
 });
 
 module.exports = upload;

@@ -1,5 +1,5 @@
 const express = require('express');
-const upload = require('../middleware/uploadMiddleware');
+const upload = require('../middlewares/uploadMiddleware');
 const router = express.Router();
 const { parseResume } = require('../utils/aiUtils');
 
