@@ -21,6 +21,7 @@ app.use('/api/feedback', require('./routes/feedbackRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/notifications', require('./routes/notificationRoutes'));
 app.use('/api/preferences', require('./routes/preferencesRoutes'));
+app.use('/api/applications', require('./routes/applicationRoutes'));
 
 app.get('/', (req, res) => res.send('API is running...'));
 
