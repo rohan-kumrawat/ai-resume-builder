@@ -6,6 +6,7 @@ const router = express.Router();
 const { parseResume } = require('../utils/aiUtils');
 const { savePersonalDetails } = require('../controllers/resumeController');
 const { saveSkills } = require('../controllers/resumeController');
+const { saveExperience } = require('../controllers/resumeController');
 
 router.post('/',protect, submitResume);
 
@@ -25,5 +26,7 @@ router.post('/upload', upload.single('resume'), async (req, res) => {
 router.post('/personal-details', protect, savePersonalDetails);
 
 router.post('/skills', protect, saveSkills);
+
+router.post('/experience', protect, saveExperience);
 
 module.exports = router;

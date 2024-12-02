@@ -46,3 +46,23 @@ exports.saveSkills = async (req, res) => {
     res.status(500).json({ message: 'Error saving skills', error });
   }
 };
+
+exports.saveExperience = async (req, res) => {
+  const { experience } = req.body;
+
+  try {
+    let resume = await Resume.findOne({ user: req.user._id });
+
+    if (!resume) {
+      return res.status(404).json({ message: 'Resume not found' });
+    }
+
+    resume.experience = experience;
+    await resume.save();
+
+    res.status(200).json({ message: 'Experience saved', resume });
+  } catch (error) {
+    res.status(500).json({ message: 'Error saving experience', error });
+  }
+};
+
