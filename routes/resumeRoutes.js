@@ -1,7 +1,13 @@
 const express = require('express');
 const upload = require('../middlewares/uploadMiddleware');
+const { protect } = require('../middlewares/authMiddleware');
+const { submitResume } = require('../controllers/resumeController');
 const router = express.Router();
 const { parseResume } = require('../utils/aiUtils');
+const { savePersonalDetails } = require('../controllers/resumeController');
+const { saveSkills } = require('../controllers/resumeController');
+
+router.post('/',protect, submitResume);
 
 router.post('/upload', upload.single('resume'), async (req, res) => {
   if (!req.file) {
@@ -16,5 +22,8 @@ router.post('/upload', upload.single('resume'), async (req, res) => {
   }
 });
 
+router.post('/personal-details', protect, savePersonalDetails);
+
+router.post('/skills', protect, saveSkills);
 
 module.exports = router;
