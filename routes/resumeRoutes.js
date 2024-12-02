@@ -7,6 +7,7 @@ const { parseResume } = require('../utils/aiUtils');
 const { savePersonalDetails } = require('../controllers/resumeController');
 const { saveSkills } = require('../controllers/resumeController');
 const { saveExperience } = require('../controllers/resumeController');
+const { saveEducation } = require('../controllers/resumeController');
 
 router.post('/',protect, submitResume);
 
@@ -28,5 +29,7 @@ router.post('/personal-details', protect, savePersonalDetails);
 router.post('/skills', protect, saveSkills);
 
 router.post('/experience', protect, saveExperience);
+
+router.post('/education', protect, saveEducation);
 
 module.exports = router;

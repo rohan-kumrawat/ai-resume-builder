@@ -1,6 +1,12 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+const educationSchema = new mongoose.Schema({
+  degree: { type: String, required: true },
+  institution: { type: String, required: true },
+  graduationYear: { type: Number, required: true },
+});
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -20,6 +26,7 @@ const UserSchema = new mongoose.Schema({
     enum: ['admin', 'user', 'recruiter'],
     default: 'user',
   },
+  education: [educationSchema],
 }, { timestamps: true });
 
 // Hash password before saving
